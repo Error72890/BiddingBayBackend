@@ -43,6 +43,26 @@ router.get('/get-all', (req, res) => {
 
 });
 
+router.get('/get-by-category/:category', (req, res) => {
+    
+    const category = req.params.category;
+
+    
+    connection.query('SELECT * FROM auctions WHERE FIND_IN_SET(?, categories) > 0', [category], (error, results) => {
+        try {
+            if (error) {
+                res.status(400).json({ error: error });
+            } else {
+                res.json({ auctions: results });
+            }
+    
+        } catch (error) {
+            res.status(500).json({ error: error });
+        }
+    });
+    
+});
+
 router.get('/get/:auctionId', (req, res) => {
 
     const auctionId = req.params.auctionId;
