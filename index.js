@@ -4,6 +4,7 @@ const cors = require('cors');
 const userModel = require('./src/routes/user');
 const auctionModel = require('./src/routes/auction');
 const relationsAuctionsModel = require('./src/routes/relations_auctions');
+const imageModel = require('./src/routes/image')
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/user', userModel);
 app.use('/auction', auctionModel);
 app.use('/relations-auctions', relationsAuctionsModel);
+app.use('/image', imageModel);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
