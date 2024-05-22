@@ -43,13 +43,10 @@ router.post('/login', (req, res) => {
 
                         const token = jsonWebToken.sign(user, "ad[sdaq*adws");
 
-                        connection.query(dateQuery, () => {
-                            res.json({
-                                userId: results[0].userId,
-                                role: results[0].role,
-                                token: token,
-                                ok: true
-                            });
+                        res.json({
+                            ok: true,
+                            userId: results[0].userId,
+                            token: token
                         });
 
                     } else {
@@ -78,7 +75,7 @@ router.post('/login', (req, res) => {
 
 });
 
-router.get('/get-all', verifyToken, (req, res) => {
+router.get('/get-all', (req, res) => {
 
     connection.query(`SELECT * FROM users`, (error, results) => {
         try {
@@ -95,7 +92,7 @@ router.get('/get-all', verifyToken, (req, res) => {
 
 });
 
-router.get('/get/:userId', verifyToken, (req, res) => {
+router.get('/get/:userId', (req, res) => {
 
     const userId = req.params.userId;
 

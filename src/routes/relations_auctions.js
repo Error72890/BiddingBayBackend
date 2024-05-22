@@ -25,7 +25,8 @@ router.post('/add', (req, res) => {
 
 });
 
-router.get('/get-all', verifyToken, (req, res) => {
+//Doesn't require token
+router.get('/get-all', (req, res) => {
 
     connection.query(`SELECT * FROM relations_auctions`, (error, results) => {
         try {
@@ -42,7 +43,8 @@ router.get('/get-all', verifyToken, (req, res) => {
 
 });
 
-router.get('/get/:relations_auctionsID', verifyToken, (req, res) => {
+//Doesn't require token
+router.get('/get/:relations_auctionsID', (req, res) => {
 
     const relations_auctionsID = req.params.relations_auctionsID;
 
@@ -60,7 +62,8 @@ router.get('/get/:relations_auctionsID', verifyToken, (req, res) => {
 
 });
 
-router.get('/get/project/:auctionID', verifyToken, (req, res) => {
+//Doesn't require token
+router.get('/get/:auctionID', (req, res) => {
 
     const auctionID = req.params.auctionID;
 
@@ -78,7 +81,7 @@ router.get('/get/project/:auctionID', verifyToken, (req, res) => {
 
 });
 
-router.get('/get/user/:userId', verifyToken, (req, res) => {
+router.get('/get/user/:userId', (req, res) => {
 
     const userId = req.params.userId;
 

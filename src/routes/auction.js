@@ -25,7 +25,8 @@ router.post('/add', verifyToken, (req, res) => {
 
 });
 
-router.get('/get-all', verifyToken, (req, res) => {
+//Doesn't require token
+router.get('/get-all', (req, res) => {
 
     connection.query(`SELECT * FROM auctions`, (error, results) => {
         try {
@@ -42,7 +43,7 @@ router.get('/get-all', verifyToken, (req, res) => {
 
 });
 
-router.get('/get/:auctionId', verifyToken, (req, res) => {
+router.get('/get/:auctionId', (req, res) => {
 
     const auctionId = req.params.auctionId;
 
