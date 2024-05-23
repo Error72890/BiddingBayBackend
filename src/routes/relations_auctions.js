@@ -6,12 +6,9 @@ const { verifyToken } = require('../utils/jsonWebTokenGenerator');
 
 router.post('/add', (req, res) => {
 
-    const { auctionId, creatorUserId, minStartBid } = req.body;
-    
-    const bidderUserID = -1;
-    const currentMaxBid = minStartBid;
+    const { auctionId, userId, isCreator, bidAmt } = req.body;
 
-    connection.query('INSERT INTO relations_auctions SET ?', { projectId: projectId, taskId: taskId, creatorUserId: creatorUserId, bidderUserID: bidderUserID, minStartBid: minStartBid, currentMaxBid: 0 }, (error, results) => {
+    connection.query('INSERT INTO relations_auctions SET ?', { auctionId: auctionId, userId: userId, isCreator: isCreator, bidAmt: bidAmt }, (error, results) => {
         try {
             if (error) {
                 res.status(400).json({ error: error });
@@ -44,11 +41,11 @@ router.get('/get-all', (req, res) => {
 });
 
 //Doesn't require token
-router.get('/get/:relations_auctionsID', (req, res) => {
+router.get('/get/:relation_auctionsId', (req, res) => {
 
-    const relations_auctionsID = req.params.relations_auctionsID;
+    const relation_auctionsId = req.params.relation_auctionsId;
 
-    connection.query('SELECT * FROM relations_auctions WHERE relations_auctionsID = ?', [relations_auctionsID], (error, results) => {
+    connection.query('SELECT * FROM relations_auctions WHERE relation_auctionsId = ?', [relation_auctionsId], (error, results) => {
         try {
             if (error) {
                 res.status(400).json({ error: error });
@@ -63,11 +60,11 @@ router.get('/get/:relations_auctionsID', (req, res) => {
 });
 
 //Doesn't require token
-router.get('/get/:auctionID', (req, res) => {
+router.get('/get/auction/:auctionId', (req, res) => {
 
-    const auctionID = req.params.auctionID;
+    const auctionId = req.params.auctionId;
 
-    connection.query('SELECT * FROM relations_auctions WHERE auctionID = ?', [auctionID], (error, results) => {
+    connection.query('SELECT * FROM relations_auctions WHERE auctionId = ?', [auctionId], (error, results) => {
         try {
             if (error) {
                 res.status(400).json({ error: error });
@@ -103,21 +100,21 @@ router.get('/get/user/:userId', (req, res) => {
 
 });
 
-router.put('/edit/:relations_auctionsID', verifyToken, (req, res) => {
+router.put('/edit/:relation_auctionsId', verifyToken, (req, res) => {
 
-    const relations_auctionsID = req.params.relations_auctionsID;
+    const relation_auctionsId = req.params.relation_auctionsId;
 
-    const { auctionId, creatorUserId, minStartBid, bidderUserID, currentMaxBid  } = req.body;
+    const { auctionId, userId, isCreator, bidAmt  } = req.body;
 
-    const updatedInformation = { auctionId, creatorUserId, bidderUserID, minStartBid, currentMaxBid };
+    const updatedInformation = { auctionId, userId, isCreator, bidAmt };
 
-    connection.query('UPDATE relations_auctions SET ? WHERE relations_auctionsID = ?', [updatedInformation, relations_auctionsID], (error, results) => {
+    connection.query('UPDATE relations_auctions SET ? WHERE relation_auctionsId = ?', [updatedInformation, relation_auctionsId], (error, results) => {
 
         try {
             if (error) {
                 res.status(400).send({ error: error });
             } else {
-                res.json({ response: `Relación modificada. ID: ${relations_auctionsID}` });
+                res.json({ response: `Relación modificada. ID: ${relation_auctionsId}` });
             }
 
         } catch (error) {
@@ -129,11 +126,11 @@ router.put('/edit/:relations_auctionsID', verifyToken, (req, res) => {
 
 });
 
-router.delete('/delete/:relations_auctionsID', verifyToken, (req, res) => {
+router.delete('/delete/:relation_auctionsId', verifyToken, (req, res) => {
 
-    const relations_auctionsID = req.params.relations_auctionsID;
+    const relation_auctionsId = req.params.relation_auctionsId;
 
-    connection.query('DELETE FROM relations_auctions WHERE relations_auctionsID = ?', [relations_auctionsID], (error, results) => {
+    connection.query('DELETE FROM relations_auctions WHERE relation_auctionsId = ?', [relation_auctionsId], (error, results) => {
 
         try {
             if (error) {

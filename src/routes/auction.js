@@ -5,9 +5,9 @@ const { verifyToken } = require('../utils/jsonWebTokenGenerator');
 
 router.post('/add', verifyToken, (req, res) => {
 
-    const { name, description, categories, startDate, endDate, imgID } = req.body;
+    const { name, description, categories, startDate, endDate, img, minBid, minBidIncrement } = req.body;
 
-    connection.query('INSERT INTO auctions SET ?', { name: name, description: description, categories: categories, startDate: startDate, endDate: endDate, imgID: imgID }, (error, results) => {
+    connection.query('INSERT INTO auctions SET ?', { name: name, description: description, categories: categories, startDate: startDate, endDate: endDate, img: img, minBid: minBid, minBidIncrement: minBidIncrement}, (error, results) => {
         try {
             if (error) {
                 res.status(400).json({ error: error });
@@ -89,9 +89,9 @@ router.put('/edit/:auctionId', verifyToken, (req, res) => {
 
     const auctionId = req.params.auctionId;
 
-    const { name, description, categories, startDate, endDate, imgID } = req.body;
+    const { name, description, categories, startDate, endDate, img, minBid, minBidIncrement } = req.body;
 
-    const updatedInformation = { name, description, categories, startDate, endDate, imgID };
+    const updatedInformation = { name, description, categories, startDate, endDate, img, minBid, minBidIncrement };
 
     connection.query('UPDATE auctions SET ? WHERE auctionId = ?', [updatedInformation, auctionId], (error, results) => {
 
