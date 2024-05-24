@@ -5,16 +5,16 @@ const { verifyToken } = require('../utils/jsonWebTokenGenerator');
 
 router.post('/add', verifyToken, (req, res) => {
 
-    const { name, description, categories, startDate, endDate, img, minBid, minBidIncrement } = req.body;
+    const { objectName, description, categories, startDate, endDate, img, minBid, minBidIncrement } = req.body;
 
-    connection.query('INSERT INTO auctions SET ?', { name: name, description: description, categories: categories, startDate: startDate, endDate: endDate, img: img, minBid: minBid, minBidIncrement: minBidIncrement}, (error, results) => {
+    connection.query('INSERT INTO auctions SET ?', { objectName: objectName, description: description, categories: categories, startDate: startDate, endDate: endDate, img: img, minBid: minBid, minBidIncrement: minBidIncrement}, (error, results) => {
         try {
             if (error) {
                 res.status(400).json({ error: error });
             } else {
                 res.json({
-                    projectId: results.insertId,
-                    response: `Registro de proyecto exitoso. ID: ${results.insertId}`
+                    auctionId: results.insertId,
+                    response: `Registro de subasta exitosa. ID: ${results.insertId}`
                 });
             }
 
@@ -28,7 +28,7 @@ router.post('/add', verifyToken, (req, res) => {
 //Doesn't require token
 router.get('/get-all', (req, res) => {
 
-    connection.query(`SELECT * FROM auctions`, (error, results) => {
+    connection.query(`SELECT * FROM auctions WHERE endDate > NOW()`, (error, results) => {
         try {
             if (error) {
                 res.status(400).json({ error: error });
