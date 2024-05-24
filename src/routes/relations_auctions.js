@@ -50,7 +50,7 @@ router.get('/get/:relation_auctionsId', (req, res) => {
             if (error) {
                 res.status(400).json({ error: error });
             } else {
-                res.json({ relation_projects: results[0] });
+                res.json({ relations_auctions: results[0] });
             }
         } catch (error) {
             res.status(500).json({ error: error });
